@@ -9,25 +9,29 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UserComponent implements OnInit {
 
-  user: Object = {};
+  user: Object;
 
   constructor(
-    private router: Router,
     private userService: UserService,
+    private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
   async ngOnInit() {
-    const resp = await this.userService.getUserById(this.activatedRoute.snapshot.params['id']);
-    this.user = resp || [];
+    this.userService.getUserById(this.activatedRoute.snapshot.params['id'])
+      .then((resp) => {
+        this.user = resp;
+      });
   }
 
-  async updateUser(user: any) {
+  updateUser(user: any) {
     const userID = user.id;
-    const resp = await this.userService.updateUser(userID, user);
-    if (resp) {
-      this.router.navigate(['users']);
-    }
+    delete user.id;
+    this.userService.updateUser(userID, user).then((resp) => {
+      if (resp) {
+        this.router.navigate(['users']);
+      }
+    });
   }
 
 }

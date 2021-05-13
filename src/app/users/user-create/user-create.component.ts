@@ -3,19 +3,22 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'user-create',
+  selector: 'app-user-create',
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.css']
 })
 
 export class UserCreateComponent implements OnInit {
 
-  user: Object = {};
+  user: Object;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-
+    this.user = {};
   }
 
   async createUser(user: Object) {
