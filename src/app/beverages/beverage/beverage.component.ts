@@ -18,11 +18,16 @@ export class BeverageComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-
+    const resp = await this.beverageService.getBeverageById(this.activatedRoute.snapshot.params['id']);
+    this.beverage = resp || [];
   }
 
   async updateBeverage(beverage: any) {
-
+    const beverageID = beverage.id;
+    const resp = await this.beverageService.updateBeverage(beverageID, beverage);
+    if (resp) {
+      this.router.navigate(['beverages']);
+    }
   }
 
 }
